@@ -18,7 +18,7 @@ def test_transcript_fallback_is_resumable(monkeypatch, tmp_path: Path):
         ]
     )
 
-    def fail_youtube(video_id, languages):
+    def fail_youtube(video_id, languages, timeout_seconds=30):
         raise RuntimeError("captions unavailable")
 
     def succeed_ytdlp(video_id, url, cache_dir, languages):

@@ -74,13 +74,24 @@ def _payload(
     }
 
 
-def fetch_youtube_captions(video_id: str, languages: list[str]) -> dict[str, Any]:
+def fetch_youtube_captions(
+    video_id: str,
+    languages: list[str],
+    timeout_seconds: float = 30.0,
+) -> dict[str, Any]:
     try:
         from youtube_transcript_api import YouTubeTranscriptApi
     except ImportError as exc:
         raise RuntimeError("youtube-transcript-api is not installed") from exc
 
-    api = YouTubeTranscriptApi()
+    import requests
+
+    class TimeoutSession(requests.Session):
+        def request(self, *args: Any, **kwargs: Any) -> requests.Response:
+            kwargs.setdefault("timeout", timeout_seconds)
+            return super().request(*args, **kwargs)
+
+    api = YouTubeTranscriptApi(http_client=TimeoutSession())
     transcript_list = api.list(video_id)
     transcript = transcript_list.find_transcript(languages)
     fetched = transcript.fetch()
@@ -240,6 +251,7 @@ def transcribe_workspace(
     whisper_model: str = "small.en",
     whisper_device: str = "cpu",
     whisper_compute_type: str = "int8",
+    request_timeout_seconds: float = 30.0,
     on_progress: Callable[[int, int, str, str], None] | None = None,
 ) -> dict[str, int]:
     workspace.ensure()
@@ -265,7 +277,9 @@ def transcribe_workspace(
             provider = provider.strip().lower()
             try:
                 if provider in {"youtube", "youtube-transcript-api"}:
-                    result = fetch_youtube_captions(video_id, languages)
+                    result = fetch_youtube_captions(
+                        video_id, languages, timeout_seconds=request_timeout_seconds
+                    )
                 elif provider in {"ytdlp", "yt-dlp", "subtitles"}:
                     result = fetch_ytdlp_subtitles(
                         video_id, str(video["url"]), cache_dir, languages

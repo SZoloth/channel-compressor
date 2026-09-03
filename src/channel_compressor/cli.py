@@ -73,6 +73,7 @@ def transcribe(
     force: bool = typer.Option(False),
     limit: int | None = typer.Option(None, min=1),
     delay_seconds: float = typer.Option(0.4, min=0.0),
+    request_timeout_seconds: float = typer.Option(30.0, min=1.0),
     whisper_model: str = typer.Option("small.en"),
     whisper_device: str = typer.Option("cpu"),
     whisper_compute_type: str = typer.Option("int8"),
@@ -88,6 +89,7 @@ def transcribe(
             force=force,
             limit=limit,
             delay_seconds=delay_seconds,
+            request_timeout_seconds=request_timeout_seconds,
             whisper_model=whisper_model,
             whisper_device=whisper_device,
             whisper_compute_type=whisper_compute_type,
@@ -254,6 +256,7 @@ def run_pipeline(
     similarity_threshold: float = typer.Option(0.76, min=0.3, max=0.99),
     limit: int | None = typer.Option(None, min=1),
     force: bool = typer.Option(False),
+    request_timeout_seconds: float = typer.Option(30.0, min=1.0),
 ) -> None:
     """Run discovery → transcript capture → analysis → report."""
     ws = _workspace(workspace)
@@ -269,6 +272,7 @@ def run_pipeline(
             providers=[item.strip() for item in providers.split(",") if item.strip()],
             limit=limit,
             force=force,
+            request_timeout_seconds=request_timeout_seconds,
             on_progress=callback,
         )
     finally:

@@ -76,6 +76,10 @@ YouTube’s official caption-download endpoint requires permission to edit the v
 
 Every successful result is cached by video ID and transcript hash. Failures go to `errors.jsonl`. Re-running is safe: completed work is retained, and changed transcripts invalidate only their downstream analysis.
 
+Public-caption HTTP requests are bounded to 30 seconds by default. Use
+`--request-timeout-seconds` on either `transcribe` or `run` when a provider is slow; one stalled
+video will be recorded as a failure instead of freezing the channel-wide pass.
+
 YouTube extraction changes periodically. Keep `yt-dlp` current; its nightly build may recover sooner than the stable release after a YouTube change. Recent extraction also benefits from having a supported JavaScript runtime such as Deno or Node installed.
 
 ## Readwise Reader integration
@@ -145,6 +149,9 @@ channel-compressor transcribe -w erin-meryl-corpus --providers youtube,ytdlp
 
 # Re-attempt failed/missing transcript work
 channel-compressor transcribe -w erin-meryl-corpus --force
+
+# Bound any single provider request so one bad upload cannot stall a full-channel run
+channel-compressor transcribe -w erin-meryl-corpus --request-timeout-seconds 20
 
 # Inspect a small slice before committing to the full corpus
 channel-compressor run -w erin-meryl-smoke-test --limit 10 --analysis-mode local

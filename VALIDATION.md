@@ -7,6 +7,8 @@ Validated in the provided execution environment on 2026-09-03:
   short/unmatched external transcript-import cases.
 - A synthetic end-to-end run successfully completed transcript loading, local analysis, semantic clustering, weighted selection, Markdown generation, HTML rendering, and CSV generation.
 - CLI discovery and transcript integrations are covered with mocked provider behavior, including caption failure followed by `yt-dlp` success and cache reuse.
+- Public-caption requests now have a configurable timeout so a single hung request cannot stall
+  a channel-wide run.
 - Reader retry behavior is covered for HTTP 429 responses, and Reader tag/note preservation is tested.
 - A live `yt-dlp` inventory captured **183** public videos from `@erinmerylstudy/videos`, totaling
   about 32.9 hours. Public caption retrieval obtained **66** transcripts (134,651 words) before
