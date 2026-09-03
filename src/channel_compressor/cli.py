@@ -8,6 +8,7 @@ from rich.progress import Progress
 
 from .analysis import analyze_transcripts, cluster_and_select
 from .discovery import discover_channel
+from .imports import import_transcripts
 from .readwise import (
     fetch_reader_transcripts,
     import_manifest_to_reader,
@@ -94,6 +95,30 @@ def transcribe(
         )
     finally:
         progress.stop()
+    console.print(counts)
+
+
+@app.command(name="transcript-import")
+def transcript_import(
+    source: Path = typer.Argument(
+        ...,
+        exists=True,
+        readable=True,
+        help="A JSON/JSONL/TXT/VTT/SRT file or directory exported by another transcript tool.",
+    ),
+    workspace: Path = typer.Option(DEFAULT_WORKSPACE, "--workspace", "-w"),
+    source_label: str = typer.Option("external", help="Short provenance label stored in cache."),
+    overwrite: bool = typer.Option(False),
+    minimum_words: int = typer.Option(40, min=1),
+) -> None:
+    """Import transcript exports for videos already in the manifest."""
+    counts = import_transcripts(
+        _workspace(workspace),
+        source,
+        source_label=source_label,
+        overwrite=overwrite,
+        minimum_words=minimum_words,
+    )
     console.print(counts)
 
 

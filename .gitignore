@@ -5,6 +5,7 @@ __pycache__/
 *.pyc
 .env
 channel-compressor-workspace/
+erin-meryl-corpus/
 .DS_Store
 *.egg-info/
 build/

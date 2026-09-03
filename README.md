@@ -51,6 +51,20 @@ youtube-transcript-api → yt-dlp subtitles → faster-whisper
 
 Reader is opt-in rather than silently included in the default chain.
 
+If another caption service or one-off web tool succeeds where those providers do not,
+import its JSON/JSONL export without losing provenance:
+
+```bash
+channel-compressor transcript-import ./transcript-exports \
+  --workspace erin-meryl-corpus --source-label web-tool
+```
+
+The importer accepts canonical transcript objects, `{id, transcript}` objects, timestamped
+segment arrays named `<video-id>.json`, JSON lists, JSONL, and TXT/VTT/SRT files named by video
+ID. It only accepts IDs already in the channel manifest, skips very short placeholder content,
+caches results by video ID, and records both the import label and original source. Re-run
+`analyze` after importing.
+
 ## Why transcript capture needs fallbacks
 
 YouTube’s official caption-download endpoint requires permission to edit the video, so it is not a general public-channel transcript API. Channel Compressor instead uses:
@@ -105,6 +119,10 @@ channel-compressor discover 'https://www.youtube.com/@erinmerylstudy/videos' \
   --workspace erin-meryl-corpus
 
 channel-compressor transcribe --workspace erin-meryl-corpus
+
+# Optional: merge transcript exports obtained elsewhere.
+channel-compressor transcript-import ./transcript-exports \
+  --workspace erin-meryl-corpus --source-label web-tool
 
 channel-compressor analyze --workspace erin-meryl-corpus \
   --profile profiles/sam.yaml \
@@ -219,7 +237,16 @@ This personalization is the point. A Cambridge student cramming for exams and a 
 PYTHONPATH=src python -m pytest
 ```
 
-The ten-test deterministic suite covers channel filtering, transcript-provider fallback, resumability, Reader retry/state behavior, semantic selection, tiny corpora, Markdown escaping, CSV generation, and HTML rendering.
+The deterministic suite covers channel filtering, transcript-provider fallback, external imports,
+resumability, Reader retry/state behavior, semantic selection, tiny corpora, Markdown escaping,
+CSV generation, and HTML rendering.
+
+## Erin Meryl evidence snapshot
+
+[`examples/erin_meryl_2026-09-03_80_20.md`](examples/erin_meryl_2026-09-03_80_20.md)
+records the live 183-video inventory, the 66 transcripts captured before provider rate limits,
+the automatic local-analysis boundary, and a human-reviewed 12-video queue. The paired CSV is
+portable to another queue or reading workflow. Raw transcripts are intentionally not committed.
 
 ## Responsible use
 
