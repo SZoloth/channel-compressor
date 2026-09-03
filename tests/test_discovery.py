@@ -1,6 +1,6 @@
+import sys
 from pathlib import Path
 from types import SimpleNamespace
-import sys
 
 from channel_compressor.discovery import discover_channel
 from channel_compressor.workspace import Workspace

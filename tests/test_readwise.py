@@ -1,4 +1,8 @@
-from channel_compressor.readwise import ReaderClient, _merge_channel_compressor_note, _reader_tag_names
+from channel_compressor.readwise import (
+    ReaderClient,
+    _merge_channel_compressor_note,
+    _reader_tag_names,
+)
 
 
 class _FakeResponse:
