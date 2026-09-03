@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "channel-compressor"
+version = "0.1.0"
+description = "Capture a YouTube channel, de-duplicate its ideas, and find the smallest high-value subset."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Sam Zoloth" }]
+dependencies = [
+  "beautifulsoup4>=4.12",
+  "numpy>=1.26",
+  "PyYAML>=6",
+  "mistune>=3.0",
+  "requests>=2.31",
+  "rich>=13",
+  "scikit-learn>=1.4",
+  "typer>=0.12",
+  "youtube-transcript-api>=1.0",
+  "yt-dlp[default]>=2025.1",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.100"]
+whisper = ["faster-whisper>=1.1"]
+all = ["openai>=1.100", "faster-whisper>=1.1"]
+dev = ["pytest>=8", "ruff>=0.8"]
+
+[project.scripts]
+channel-compressor = "channel_compressor.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/channel_compressor"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100

@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+.env
+channel-compressor-workspace/
+.DS_Store
+*.egg-info/
+build/
+dist/
+coverage.xml
+htmlcov/

@@ -1,0 +1,34 @@
+name: Sam
+priorities:
+  - topic: durable learning and mastery systems
+    weight: 1.0
+    keywords: [learning, mastery, deliberate practice, feedback, retrieval, curriculum, memory, critical thinking]
+  - topic: execution and follow-through
+    weight: 1.0
+    keywords: [execution, action, discipline, consistency, focus, attention, habits, prioritization]
+  - topic: product strategy and entrepreneurship
+    weight: 0.9
+    keywords: [product, strategy, startup, founder, customer, business, experimentation, y combinator]
+  - topic: AI and technical upskilling
+    weight: 0.9
+    keywords: [ai, llm, machine learning, research, technical, evaluation]
+  - topic: sleep and sustainable performance
+    weight: 0.8
+    keywords: [sleep, recovery, sustainable, burnout, exercise]
+  - topic: creative and physical skill acquisition
+    weight: 0.65
+    keywords: [skill, music, pottery, tennis, skiing, cooking, woodworking, practice]
+deprioritize:
+  - topic: school-specific exam tactics
+    weight: 0.9
+    keywords: [gcse, a-level, exam, revision, grades, lecture notes, past paper]
+  - topic: passive study ambience
+    weight: 1.0
+    keywords: [study with me, vlog, routine, aesthetic]
+  - topic: generic motivation without a falsifiable method
+    weight: 0.8
+    keywords: [motivation, glow up, lock in, potential]
+preferences:
+  prefer: concrete protocols, examples, tradeoffs, evidence, original frameworks, low repetition
+  skeptical_of: neuroscience theater, dopamine monocausality, prestige as proof, generic self-help
+  output_goal: the minimum set of videos that changes behavior or adds a genuinely distinct model
