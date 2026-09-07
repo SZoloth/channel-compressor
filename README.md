@@ -1,5 +1,13 @@
 # Channel Compressor
 
+## Erin Meryl: start here
+
+[Final practical watchlist and overlap review](examples/erin_meryl_final_80_20.md):
+six core videos, **60.6 minutes**, plus three optional deep dives. Based on the
+September 3 inventory: **177/183 transcripts analyzed; six documented gaps**.
+“80/20” is an editorial prioritization goal, not a demonstrated 80% semantic-coverage score.
+See [validation](VALIDATION.md) for scope and reproducibility.
+
 **Channel Compressor** answers a better question than “Which uploads are popular?”
 
 > **What is the smallest set of videos that covers most of a channel’s distinct, useful value for a particular person?**

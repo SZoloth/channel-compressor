@@ -32,6 +32,8 @@ from .utils import (
 )
 from .workspace import Workspace
 
+LOCAL_ANALYSIS_MODEL = "tfidf-mmr-v2"
+
 KIND_WEIGHT = {
     "principle": 1.0,
     "method": 1.12,
@@ -47,6 +49,31 @@ METHOD_RE = re.compile(
     r"\b(?:do|write|read|practice|set|make|build|remove|schedule|record|explain|review|repeat|choose|start|stop|use)\b",
     re.IGNORECASE,
 )
+
+
+def _analysis_passages(text: str, *, target_words: int = 48, overlap_words: int = 8) -> list[str]:
+    """Return sentence-sized passages even for punctuation-free auto-captions.
+
+    Some transcript providers return an entire video as one sentence. The local
+    analyzer deliberately ignores candidates longer than 70 words, so those
+    transcripts previously produced no concepts. Preserve normal sentence
+    boundaries and split only oversized passages into overlapping word windows.
+    """
+    passages: list[str] = []
+    step = max(1, target_words - overlap_words)
+    for sentence in split_sentences(text):
+        words = sentence.split()
+        if len(words) <= 70:
+            passages.append(sentence)
+            continue
+        for start in range(0, len(words), step):
+            chunk = words[start : start + target_words]
+            if len(chunk) < 8:
+                break
+            passages.append(" ".join(chunk))
+            if start + target_words >= len(words):
+                break
+    return passages
 
 
 def _local_relevance(text: str, profile: dict[str, Any]) -> float:
@@ -97,7 +124,11 @@ def local_analyze_video(
     maximum: int = 9,
 ) -> dict[str, Any]:
     cleaned = strip_cta_sentences(text)
-    sentences = split_sentences(cleaned)
+    # With punctuation-free captions, a single CTA can otherwise cause the
+    # sentence-level cleaner to discard the entire transcript as one sentence.
+    if not cleaned and len(text.split()) > 70:
+        cleaned = text
+    sentences = _analysis_passages(cleaned)
     ranked = _mmr_sentences(sentences, maximum=maximum)
     concepts: list[dict[str, Any]] = []
     for sentence, salience in ranked:
@@ -145,7 +176,7 @@ def local_analyze_video(
             if item["needs_verification"]
         ][:1],
         "mode": "local",
-        "model": "tfidf-mmr",
+        "model": LOCAL_ANALYSIS_MODEL,
     }
 
 
@@ -174,7 +205,7 @@ def analyze_transcripts(
     )
     analyzer = OpenAIAnalyzer(model=model) if use_openai else None
     desired_mode = "openai" if analyzer else "local"
-    desired_model = analyzer.model if analyzer else "tfidf-mmr"
+    desired_model = analyzer.model if analyzer else LOCAL_ANALYSIS_MODEL
     counts = {"analyzed": 0, "cached": 0, "missing_transcript": 0, "failed": 0}
 
     for index, video in enumerate(videos, start=1):

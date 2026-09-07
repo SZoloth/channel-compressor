@@ -38,6 +38,7 @@ def test_report_flags_partial_corpus_and_renders_html(tmp_path: Path):
         "aaaaaaaaaaa",
         {
             "summary": "A retrieval practice protocol.",
+            "mode": "local",
             "concepts": [
                 {
                     "claim": "Retrieve ideas after reading them.",
@@ -94,6 +95,8 @@ def test_report_flags_partial_corpus_and_renders_html(tmp_path: Path):
 
     assert "**Provisional result.**" in markdown
     assert "analyzed subset" in markdown
+    assert "lexical proxy" in markdown
+    assert "does not establish 80% semantic coverage" in markdown
     assert "Attention \\| retrieval" in markdown
     assert "<h1>" in html
     assert "<table>" in html

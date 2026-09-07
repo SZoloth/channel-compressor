@@ -90,6 +90,14 @@ def generate_report(workspace: Workspace, *, title: str | None = None) -> Path:
             ]
         )
 
+    if any(item and item.get("mode") == "local" for item in analyses.values()):
+        lines.extend([
+            "> **Local-analysis limitation:** TF–IDF/SVD coverage is a lexical proxy, "
+            "not a validated measure of distinct ideas. Paraphrases may remain separate; "
+            "an 80% setting does not establish 80% semantic coverage.",
+            "",
+        ])
+
     source_summary = ", ".join(
         f"{source}: {count}" for source, count in transcript_sources.most_common()
     ) or "none"

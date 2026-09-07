@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import channel_compressor.analysis as analysis_module
-from channel_compressor.analysis import analyze_transcripts
+from channel_compressor.analysis import analyze_transcripts, local_analyze_video
 from channel_compressor.utils import sha256_text
 from channel_compressor.workspace import Workspace
 
@@ -51,3 +51,20 @@ def test_auto_mode_falls_back_locally(monkeypatch, tmp_path: Path):
     assert payload["mode"] == "local"
     assert payload["fallback_from"] == "openai"
     assert payload["fallback_reason"] == "RuntimeError"
+
+
+def test_local_analysis_handles_punctuation_free_auto_captions():
+    text = " ".join(
+        [
+            "start with one focused task and remove distractions before you begin",
+            "practice retrieval from memory and inspect the errors after each attempt",
+            "subscribe to the channel then schedule the next repetition after feedback",
+        ]
+        * 12
+    )
+
+    payload = local_analyze_video("A practical study system", text, profile={})
+
+    assert payload["concepts"]
+    assert payload["summary"]
+    assert all(8 <= len(item["claim"].split()) <= 70 for item in payload["concepts"])
