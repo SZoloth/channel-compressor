@@ -1,0 +1,28 @@
+{
+  "channel": "Lenny's Podcast",
+  "window_start": "2026-09-20",
+  "window_end": "2026-09-29",
+  "timezone_interpretation": "America/Denver calendar dates; YouTube metadata offsets preserved during capture",
+  "videos_discovered": 13,
+  "transcripts_captured": 13,
+  "videos_analyzed": 13,
+  "transcript_words": 96672,
+  "source_seconds": 25976,
+  "missing_transcript_ids": [],
+  "integrity_errors": [],
+  "automated_selection": {
+    "method": "local TF-IDF/MMR extraction and TF-IDF/SVD clustering",
+    "selected_videos": 6,
+    "selected_seconds": 7079,
+    "lexical_weighted_coverage": 0.492488,
+    "stop_reason": "time_budget_reached",
+    "semantic_coverage_claimed": false
+  },
+  "editorial_core": {
+    "video_ids": ["fF3lkTCM5-c", "Zn9NZ-r1-C4", "VM5kuvWgwDY", "GLvFTMtw4Jk"],
+    "selected_seconds": 5140,
+    "source_time_share": 0.197875,
+    "watch_time_removed_share": 0.802125
+  },
+  "raw_transcripts_published": false
+}

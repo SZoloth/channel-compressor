@@ -1,12 +1,16 @@
 # Channel Compressor
 
-## Erin Meryl: start here
+## Completed channel slices
 
-[Final practical watchlist and overlap review](examples/erin_meryl_final_80_20.md):
-six core videos, **60.6 minutes**, plus three optional deep dives. Based on the
-September 3 inventory: **177/183 transcripts analyzed; six documented gaps**.
-“80/20” is an editorial prioritization goal, not a demonstrated 80% semantic-coverage score.
-See [validation](VALIDATION.md) for scope and reproducibility.
+- [Lenny's Podcast, September 20–29, 2026](examples/lennys_podcast_2026-09-20_to_2026-09-29_80_20.md):
+  four core videos / **85m40s**, compressing 7h13m of source video by 80.2%.
+  All 13 transcripts were captured and analyzed.
+- [Erin Meryl final practical watchlist](examples/erin_meryl_final_80_20.md):
+  six core videos / **60.6 minutes**, plus three optional deep dives. Based on the
+  September 3 inventory: 177/183 transcripts analyzed, with six documented gaps.
+
+“80/20” is an editorial prioritization goal, not a demonstrated semantic-coverage score.
+See each guide's method notes and [validation](VALIDATION.md) for scope.
 
 **Channel Compressor** answers a better question than “Which uploads are popular?”
 
